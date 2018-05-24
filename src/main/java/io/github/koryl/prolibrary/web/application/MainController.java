@@ -9,19 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MainController {
 
     @GetMapping
-    public String getLibrary() {
+    public String library() {
 
         return "library";
     }
 
-    @GetMapping("/books")
-    public String getBooks() {
-
-        return "books";
-    }
-
     @GetMapping("/account")
-    public String getMyAccount() {
+    public String myAccount() {
 
         return "my-account";
     }
