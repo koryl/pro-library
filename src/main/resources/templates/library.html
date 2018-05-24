@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head></head>
+<head>
+    <th:block th:replace="fragments/header :: head"/>
+</head>
 
 <body>
-<div th:replace="fragments/header :: head" th:remove="tag"></div>
 
-<div th:replace="fragments/header :: header"></div>
+<th:block th:replace="fragments/header :: header"/>
 
 <main role="main" class="container">
     <h1 class="mt-5">Welcome to Pro-Library</h1>
     <p class="lead">Here i wrote some content to see how it actually looks like.</p>
 </main>
 
-<div th:replace="fragments/footer :: footer"></div>
+<th:block th:replace="fragments/footer :: footer"/>
 </body>
 </html>

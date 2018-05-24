@@ -16,26 +16,33 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-//        http.csrf().disable()
-//                .authorizeRequests()
-//                .antMatchers("/", "/login").permitAll()
-//                .antMatchers("/library/**", "/library").hasAnyRole("USER")
-//                .anyRequest().authenticated()
-//                .and()
-//                .formLogin()
-//                .loginPage("/login")
-//                .permitAll()
-//                .and()
-//                .logout()
-//                .permitAll()
-//                .and()
-//                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+        http
+                .authorizeRequests()
+                    .antMatchers("/",
+                        "/js/**",
+                        "/css/**",
+                        "/img/**",
+                        "/webjars/**").permitAll()
+                    .antMatchers("/library/**", "/library").hasAnyRole("USER")
+                    .anyRequest().authenticated()
+                .and()
+                    .formLogin()
+                    .loginPage("/login")
+                    .permitAll()
+                .defaultSuccessUrl("/library", true)
+                .and()
+                    .logout()
+                    .logoutUrl("/logout")
+                    .clearAuthentication(true)
+                    .permitAll()
+                .and()
+                    .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
     }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
         auth.inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER");
+                .withUser("user@us.com").password("{noop}pass").roles("USER");
     }
 }
