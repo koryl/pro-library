@@ -19,4 +19,10 @@ public class MainController {
 
         return "my-account";
     }
+
+    @GetMapping("/error/access-denied")
+    public String accessDenied() {
+
+        return "my-account";
+    }
 }
