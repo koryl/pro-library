@@ -1,0 +1,2 @@
+INSERT INTO BOOK (BOOK_NAME, BOOK_AUTHOR, BOOK_DESCRIPTION) VALUES ('Lord of the Rings', 'Tolkien, John Ronald Reuel', 'From quiet beginnings in the Shire, a hobbit must destroy One Ring and safe Middle-earth from destruction.');
+INSERT INTO BOOK (BOOK_NAME, BOOK_AUTHOR, BOOK_DESCRIPTION) VALUES ('The Colour of Magic', 'Pratchett, Terry', 'The worst wizard in Discworld, Rincewind, is hired as a guide to the rich but naive Twoflower.');
