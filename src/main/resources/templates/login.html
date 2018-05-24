@@ -2,13 +2,13 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Pro-Library</title>
-    <div th:replace="fragments/header :: header-head"></div>
-    <link rel="stylesheet" href="../static/css/login.css" th:href="@{/css/main.css}">
-
+    <link rel="stylesheet" href="../static/css/login.css" th:href="@{/css/login.css}">
 </head>
 
 <body class="text-center">
+
+<div th:replace="fragments/header :: head" th:remove="tag"></div>
+
 <form class="form-signin">
     <h1>Welcome in Pro-Library app!</h1>
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
