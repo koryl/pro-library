@@ -1,22 +1,34 @@
 package io.github.koryl.prolibrary.data.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "BOOK")
+@Table(name = "books")
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "BOOK_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "book_id")
     private long id;
-    @Column(name="BOOK_NAME")
+
+    @Column(name="book_name")
+    @NotNull
+    @NotEmpty
     private String bookName;
-    @Column(name="BOOK_AUTHOR")
+
+    @Column(name="book_author")
+    @NotNull
+    @NotEmpty
     private String bookAuthor;
-    @Column(name="BOOK_DESCRIPTION")
+
+    @Column(name="book_description")
+    @NotNull
+    @NotEmpty
     private String bookDescription;
-    @Column(name="BOOK_COVER")
+
+    @Column(name="book_cover")
     private String bookCover;
 
     public long getId() {

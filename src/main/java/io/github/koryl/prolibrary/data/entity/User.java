@@ -1,23 +1,44 @@
 package io.github.koryl.prolibrary.data.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import java.util.Collection;
 
 @Entity
-@Table(name = "USER")
+@Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "USER_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private long id;
-    @Column(name="FIRST_NAME")
+
+    @Column(name="first_name")
+    @NotEmpty(message = "Please provide your first name")
     private String firstName;
-    @Column(name="LAST_NAME")
+
+    @Column(name="last_name")
+    @NotEmpty(message = "Please provide your last name")
     private String lastName;
-    @Column(name="EMAIL")
+
+    @Column(name="email", unique = true)
+    @Email(message = "Please provide a valid e-mail")
+    @NotEmpty(message = "Please provide an e-mail")
     private String email;
-    @Column(name="PASSWORD")
+
+    @Column(name="password")
     private String password;
+
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "user_id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "role_id"))
+    private Collection<Role> roles;
 
     public long getId() {
         return id;
@@ -57,5 +78,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Collection<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
     }
 }

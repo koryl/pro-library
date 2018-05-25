@@ -41,7 +41,9 @@
                     <input class="form-control mr-sm-2" th:name="'bookName'" th:value="*{bookName}" type="text" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search for books</button>
                 </form>
-                <a class="btn btn-primary" th:href="@{/logout}" role="button">Sign Out</a>
+                <form th:action="@{/logout}" method="get" class="form-inline mt-2 mt-md-0">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Sign Out</button>
+                </form>
             </div>
         </nav>
     </header>
