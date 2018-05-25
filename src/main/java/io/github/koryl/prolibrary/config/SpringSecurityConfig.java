@@ -6,12 +6,17 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final AccessDeniedHandler accessDeniedHandler;
+
     @Autowired
-    private AccessDeniedHandler accessDeniedHandler;
+    public SpringSecurityConfig(AccessDeniedHandler accessDeniedHandler) {
+        this.accessDeniedHandler = accessDeniedHandler;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -29,11 +34,13 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                     .formLogin()
                     .loginPage("/login")
                     .permitAll()
-                .defaultSuccessUrl("/library", true)
+                    .defaultSuccessUrl("/library", true)
                 .and()
-                    .logout()
-                    .logoutUrl("/logout")
+                .logout()
+                .invalidateHttpSession(true)
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                     .clearAuthentication(true)
+                    .logoutSuccessUrl("/login?logout")
                     .permitAll()
                 .and()
                     .exceptionHandling().accessDeniedHandler(accessDeniedHandler);

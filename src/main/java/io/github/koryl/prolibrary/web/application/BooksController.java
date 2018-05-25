@@ -1,13 +1,11 @@
 package io.github.koryl.prolibrary.web.application;
 
-import io.github.koryl.prolibrary.business.service.BookService;
+import io.github.koryl.prolibrary.business.service.BookServiceImpl;
 import io.github.koryl.prolibrary.data.entity.Book;
-import io.github.koryl.prolibrary.data.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,8 +13,12 @@ import java.util.List;
 @RequestMapping("/library/books")
 public class BooksController {
 
+    private final BookServiceImpl bookService;
+
     @Autowired
-    private BookService bookService;
+    public BooksController(BookServiceImpl bookService) {
+        this.bookService = bookService;
+    }
 
     @GetMapping
     public String books(Model model) {
@@ -24,5 +26,19 @@ public class BooksController {
         List<Book> allBooksList = bookService.getAllBooks();
         model.addAttribute("allBooks", allBooksList);
         return "books";
+    }
+
+    @GetMapping("/{id}")
+    public String selectedBook(Model model, @PathVariable Long id) {
+
+        model.addAttribute("book", bookService.getByBookId(id));
+        return "single-book";
+    }
+
+    @PostMapping("/search")
+    public String searchBook(Model model, @RequestParam("bookName") String bookName) {
+
+        model.addAttribute("bookList", bookService.getBookByName(bookName));
+        return "search-result";
     }
 }

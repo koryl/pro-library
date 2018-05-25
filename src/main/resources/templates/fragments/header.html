@@ -37,13 +37,11 @@
                         <a class="nav-link" th:href="@{/library/account}">My Account</a>
                     </li>
                 </ul>
-                <form class="form-inline mt-2 mt-md-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                <form th:action="@{/library/books/search}" method="post" class="form-inline mt-2 mt-md-0">
+                    <input class="form-control mr-sm-2" th:name="'bookName'" th:value="*{bookName}" type="text" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search for books</button>
                 </form>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a class="nav-link" th:href="@{/logout}">Sign Out</a></li>
-                </ul>
+                <a class="btn btn-primary" th:href="@{/logout}" role="button">Sign Out</a>
             </div>
         </nav>
     </header>

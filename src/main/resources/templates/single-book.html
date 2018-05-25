@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:replace="fragments/header :: head"/>
+</head>
+
+<body>
+
+<th:block th:replace="fragments/header :: header"/>
+
+
+<div class="col-md-5 p-lg-5 mx-auto my-5">
+    <h1 class="display-4 font-weight-normal" th:text="${book.getBookName()}">Book Name</h1>
+    <h2 class="display-5 font-weight-normal" th:text="${book.getBookAuthor()}">Book Author</h2>
+    <p class="lead font-weight-normal" th:text="${book.getBookDescription()}">Book Description</p>
+    <div>
+        <th:block th:if="${book.getBookCover() == null}">
+            <img class="figure-img"
+                 alt="Book Cover"
+                 th:src="@{/img/book-2111602_640.jpg}"
+                 data-holder-rendered="true">
+        </th:block>
+        <th:block th:if="${book.getBookCover() != null}">
+            <img class="figure-img"
+                 alt="Book Cover"
+                 th:src="@{${'/img/' + book.getBookCover()}}"
+                 data-holder-rendered="true">
+        </th:block>
+    </div>
+</div>
+
+<th:block th:replace="fragments/footer :: footer"/>
+</body>
+</html>
