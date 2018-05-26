@@ -26,7 +26,7 @@ public class UserRegistrationDto {
     @NotEmpty
     private String confirmEmail;
 
-    @AssertTrue(message = "You must accept license agreement")
+    @AssertTrue(message = "You must accept license agreement!")
     private Boolean terms;
 
     public String getFirstName() {

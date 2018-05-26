@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/library")
-public class MainController {
+public class LibraryController {
 
     @GetMapping
     public String library() {
@@ -14,15 +14,10 @@ public class MainController {
         return "library";
     }
 
-    @GetMapping("/account")
-    public String myAccount() {
-
-        return "my-account";
-    }
 
     @GetMapping("/error/access-denied")
     public String accessDenied() {
 
-        return "my-account";
+        return "access-denied";
     }
 }

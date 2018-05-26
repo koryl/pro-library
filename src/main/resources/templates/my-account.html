@@ -10,8 +10,10 @@
 <th:block th:replace="fragments/header :: header"/>
 
 <main role="main" class="container">
-    <h1 class="mt-5">My Account</h1>
+    <h1 class="mt-5 h1">My Account</h1>
+    <h2 class="mt-5 h2" th:text="${'Hello ' + user.getFirstName() + ' ' + user.getLastName() + '!'}">Hello!</h2>
     <p class="lead">Here are details of account</p>
+    <p th:text="${user.getEmail()}">Email</p>
 </main>
 
 <th:block th:replace="fragments/footer :: footer"/>

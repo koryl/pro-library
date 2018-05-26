@@ -10,8 +10,8 @@
 
 
 <form th:action="@{/login}" method="post" class="form-signin">
-    <h1>Welcome in Pro-Library app!</h1>
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <h1 class="h1 font-weight-bold font-italic">Pro-Library</h1>
+    <h3 class="h3 mb-3 font-weight-normal">Please sign in</h3>
     <div th:if="${param.error}">
         <div class="alert alert-danger">
             Invalid username or password.
