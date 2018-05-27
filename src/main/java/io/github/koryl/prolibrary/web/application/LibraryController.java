@@ -5,17 +5,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/library")
 public class LibraryController {
 
-    @GetMapping
+    @GetMapping("/library")
     public String library() {
 
         return "library";
     }
 
 
-    @GetMapping("/error/access-denied")
+    @GetMapping("/access-denied")
     public String accessDenied() {
 
         return "access-denied";

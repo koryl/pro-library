@@ -32,6 +32,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers("/",
                         "/registration",
+                        "/access-denied",
                         "/js/**",
                         "/css/**",
                         "/img/**",
