@@ -1,5 +1,6 @@
 package io.github.koryl.prolibrary.business.service;
 
+import io.github.koryl.prolibrary.data.entity.Book;
 import io.github.koryl.prolibrary.data.entity.Role;
 import io.github.koryl.prolibrary.data.entity.User;
 import io.github.koryl.prolibrary.data.repository.UserRepository;
@@ -22,12 +23,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    @Override
+
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
         User user = userRepository.findByEmail(email);
         if (user == null){
             throw new UsernameNotFoundException("Invalid username or password.");
@@ -38,10 +39,12 @@ public class UserServiceImpl implements UserService {
     }
 
     public User findByEmail(String email){
+
         return userRepository.findByEmail(email);
     }
 
     public User save(UserRegistrationDto registration){
+
         User user = new User();
         user.setFirstName(registration.getFirstName());
         user.setLastName(registration.getLastName());
@@ -51,9 +54,16 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    public void borrowBook(Book book, User user) {
+
+        user.getBorrowedBooks().add(book);
+        userRepository.save(user);
+    }
+
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles){
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
     }
+
 }

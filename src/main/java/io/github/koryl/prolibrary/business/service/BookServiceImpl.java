@@ -1,6 +1,7 @@
 package io.github.koryl.prolibrary.business.service;
 
 import io.github.koryl.prolibrary.data.entity.Book;
+import io.github.koryl.prolibrary.data.entity.User;
 import io.github.koryl.prolibrary.data.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,10 @@ public class BookServiceImpl implements BookService {
         return bookList;
     }
 
+    public Book saveBook() {
+        return null;
+    }
+
     public Book getByBookId(Long id) {
 
         Optional<Book> opBook = bookRepository.findById(id);
@@ -37,5 +42,20 @@ public class BookServiceImpl implements BookService {
     public List<Book> getBookByName(String bookName) {
 
         return bookRepository.findBooksByBookNameContaining(bookName);
+    }
+
+    public boolean lendBook(Book book, User user) {
+
+        if(book.isBorrowed()) {
+
+            return false;
+
+        } else {
+
+            book.setBorrowed(true);
+            book.setUser(user);
+            bookRepository.save(book);
+            return true;
+        }
     }
 }

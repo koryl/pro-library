@@ -3,7 +3,9 @@ package io.github.koryl.prolibrary.data.entity;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -14,21 +16,24 @@ public class User {
     @Column(name = "user_id")
     private long id;
 
-    @Column(name="first_name")
+    @Column(name = "first_name")
     @NotEmpty(message = "Please provide your first name")
     private String firstName;
 
-    @Column(name="last_name")
+    @Column(name = "last_name")
     @NotEmpty(message = "Please provide your last name")
     private String lastName;
 
-    @Column(name="email", unique = true)
+    @Column(name = "email", unique = true)
     @Email(message = "Please provide a valid e-mail")
     @NotEmpty(message = "Please provide an e-mail")
     private String email;
 
-    @Column(name="password")
+    @Column(name = "password")
     private String password;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Book> borrowedBooks = new ArrayList<>();
 
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -78,6 +83,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Book> getBorrowedBooks() {
+        return borrowedBooks;
+    }
+
+    public void setBorrowedBooks(List<Book> borrowedBooks) {
+        this.borrowedBooks = borrowedBooks;
     }
 
     public Collection<Role> getRoles() {

@@ -28,6 +28,13 @@ public class Book {
     @NotEmpty
     private String bookDescription;
 
+    @Column(name = "is_borrowed")
+    private boolean isBorrowed;
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
+
     @Column(name="book_cover")
     private String bookCover;
 
@@ -61,6 +68,22 @@ public class Book {
 
     public void setBookDescription(String bookDescription) {
         this.bookDescription = bookDescription;
+    }
+
+    public boolean isBorrowed() {
+        return isBorrowed;
+    }
+
+    public void setBorrowed(boolean borrowed) {
+        isBorrowed = borrowed;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getBookCover() {
