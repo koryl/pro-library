@@ -13,6 +13,10 @@ public class LibraryController {
         return "library";
     }
 
+    @GetMapping("/")
+    public String home() {
+        return "library";
+    }
 
     @GetMapping("/access-denied")
     public String accessDenied() {
