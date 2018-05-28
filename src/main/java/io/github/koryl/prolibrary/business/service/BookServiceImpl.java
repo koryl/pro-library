@@ -5,6 +5,7 @@ import io.github.koryl.prolibrary.data.entity.User;
 import io.github.koryl.prolibrary.data.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,18 +45,25 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findBooksByBookNameContaining(bookName);
     }
 
-    public boolean lendBook(Book book, User user) {
+    @Transactional
+    public void lendBook(Book book, User user) {
 
-        if(book.isBorrowed()) {
-
-            return false;
-
-        } else {
+        if(!book.isBorrowed()) {
 
             book.setBorrowed(true);
             book.setUser(user);
             bookRepository.save(book);
-            return true;
+        }
+    }
+
+    @Transactional
+    public void getBackBook(Book book) {
+
+        if(book.isBorrowed()) {
+
+            book.setBorrowed(false);
+            book.setUser(null);
+            bookRepository.save(book);
         }
     }
 }

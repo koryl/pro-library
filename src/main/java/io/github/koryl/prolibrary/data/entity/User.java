@@ -6,6 +6,7 @@ import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -32,7 +33,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     private List<Book> borrowedBooks = new ArrayList<>();
 
 
@@ -99,5 +100,19 @@ public class User {
 
     public void setRoles(Collection<Role> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return getId() == user.getId() &&
+                Objects.equals(getEmail(), user.getEmail());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getEmail());
     }
 }

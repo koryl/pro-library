@@ -3,6 +3,7 @@ package io.github.koryl.prolibrary.data.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Entity
 @Table(name = "books")
@@ -92,5 +93,18 @@ public class Book {
 
     public void setBookCover(String bookCover) {
         this.bookCover = bookCover;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return id == book.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

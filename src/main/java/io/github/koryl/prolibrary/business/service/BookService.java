@@ -11,5 +11,7 @@ public interface BookService {
 
     Book saveBook();
 
-    boolean lendBook(Book book, User user);
+    void lendBook(Book book, User user);
+
+    void getBackBook(Book book);
 }

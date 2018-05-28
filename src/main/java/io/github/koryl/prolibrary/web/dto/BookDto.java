@@ -1,7 +1,5 @@
 package io.github.koryl.prolibrary.web.dto;
 
-import io.github.koryl.prolibrary.data.entity.User;
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 

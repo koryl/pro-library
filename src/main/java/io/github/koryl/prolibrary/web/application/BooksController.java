@@ -26,6 +26,7 @@ public class BooksController {
 
     @Autowired
     public BooksController(BookServiceImpl bookService, UserServiceImpl userService) {
+
         this.bookService = bookService;
         this.userService = userService;
     }
@@ -56,29 +57,36 @@ public class BooksController {
     public String lendBook(@PathVariable("id") Long id, Model model) {
 
         Book book = bookService.getByBookId(id);
-        String message;
 
-        if(book.isBorrowed()) {
+        User user = getLoggedUser();
 
-            message = "It is not possible to borrow this book!";
-            logger.info("It was not possible to borrow: " + book.getBookName());
+        bookService.lendBook(book, user);
+        userService.borrowBook(book, user);
 
-        } else {
-
-            User user = getLoggedUser();
-            bookService.lendBook(book, user);
-            userService.borrowBook(book, user);
-            message = "You have successfully borrowed book";
-            logger.info("Book was successfully lent.");
-        }
+        logger.info("Book was successfully lent.");
 
         model.addAttribute("book", book);
-        model.addAttribute("message", message);
+
+        return "single-book";
+    }
+
+    @GetMapping("/{id}/return")
+    public String returnBook(@PathVariable("id") Long id, Model model) {
+
+        Book book = bookService.getByBookId(id);
+
+        User user = getLoggedUser();
+        bookService.getBackBook(book);
+        userService.returnBookBook(book, user);
+        logger.info("Book was successfully returned.");
+
+        model.addAttribute("book", book);
 
         return "single-book";
     }
 
     private User getLoggedUser() {
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return userService.findByEmail(auth.getName());
     }

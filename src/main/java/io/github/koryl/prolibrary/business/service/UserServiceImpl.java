@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static java.util.Collections.singletonList;
@@ -30,7 +31,7 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         User user = userRepository.findByEmail(email);
-        if (user == null){
+        if (user == null) {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
         return new org.springframework.security.core.userdetails.User(user.getEmail(),
@@ -38,12 +39,12 @@ public class UserServiceImpl implements UserService {
                 mapRolesToAuthorities(user.getRoles()));
     }
 
-    public User findByEmail(String email){
+    public User findByEmail(String email) {
 
         return userRepository.findByEmail(email);
     }
 
-    public User save(UserRegistrationDto registration){
+    public User save(UserRegistrationDto registration) {
 
         User user = new User();
         user.setFirstName(registration.getFirstName());
@@ -56,11 +57,18 @@ public class UserServiceImpl implements UserService {
 
     public void borrowBook(Book book, User user) {
 
-        user.getBorrowedBooks().add(book);
-        userRepository.save(user);
+            user.getBorrowedBooks().add(book);
+            userRepository.save(user);
     }
 
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles){
+
+    public void returnBookBook(Book book, User user) {
+
+            user.getBorrowedBooks().remove(book);
+            userRepository.save(user);
+    }
+
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());

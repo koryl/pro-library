@@ -1,20 +1,24 @@
 package io.github.koryl.prolibrary.web.application;
 
+import io.github.koryl.prolibrary.data.entity.User;
+import io.github.koryl.prolibrary.data.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class LibraryController {
 
-    @GetMapping("/library")
-    public String library() {
+    @Autowired
+    private UserRepository userService;
 
-        return "library";
-    }
+    @GetMapping({"/library", "/"})
+    public String library(Model model) {
 
-    @GetMapping("/")
-    public String home() {
+        model.addAttribute("user", getLoggedUser());
         return "library";
     }
 
@@ -22,5 +26,11 @@ public class LibraryController {
     public String accessDenied() {
 
         return "access-denied";
+    }
+
+    private User getLoggedUser() {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return userService.findByEmail(auth.getName());
     }
 }
