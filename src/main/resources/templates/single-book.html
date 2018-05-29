@@ -12,9 +12,23 @@
 
 <main role="main" class="container">
     <div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        <div><h2 class="display-5 font-weight-normal" th:text="${book.getBookAuthor()}">Book Author</h2></div>
-        <div><h1 class="display-4 font-weight-bold" th:text="${book.getBookName()}">Book Name</h1></div>
-        <div><p class="lead font-weight-normal" th:text="${book.getBookDescription()}">Book Description</p></div>
+        <div><h2 class="display-5 m-2 font-weight-normal" th:text="${book.getBookAuthor()}">Book Author</h2></div>
+        <div><h1 class="display-4 m-2 font-weight-bold" th:text="${book.getBookName()}">Book Name</h1></div>
+        <div><p class="lead font-weight-normal m-2 p-4" th:text="${book.getBookDescription()}">Book Description</p></div>
+
+        <div class="lead font-weight-normal m-2" th:if="${!book.isBorrowed()}"><p>Available</p></div>
+        <div class="lead font-weight-normal m-2" th:if="${book.isBorrowed()}"><p>Unavailable</p></div>
+
+        <div th:if="${book.isBorrowed()}">
+            <button class="btn btn-primary disabled m-1">Lent</button>
+            <a class="btn btn-primary" th:href="@{${'/library/books/' + book.getId() + '/return'}}"
+               role="button">Return</a>
+        </div>
+        <div th:if="${!book.isBorrowed()}">
+            <a class="btn btn-primary m-1" th:href="@{${'/library/books/' + book.getId() + '/lend'}}"
+               role="button">Lend</a>
+            <button class="btn btn-primary disabled">Returned</button>
+        </div>
 
         <div class="mt-3">
             <th:block th:if="${book.getBookCover() == null}">
@@ -29,20 +43,6 @@
                      th:src="@{${'/img/' + book.getBookCover()}}"
                      data-holder-rendered="true">
             </th:block>
-        </div>
-
-        <div class="lead font-weight-normal md-4" th:if="${!book.isBorrowed()}"><p>Available</p></div>
-        <div class="lead font-weight-normal md-4" th:if="${book.isBorrowed()}"><p>Unavailable</p></div>
-
-        <div th:if="${book.isBorrowed()}">
-            <button class="btn btn-primary disabled">Lent</button>
-            <a class="btn btn-primary" th:href="@{${'/library/books/' + book.getId() + '/return'}}"
-               role="button">Return</a>
-        </div>
-        <div th:if="${!book.isBorrowed()}">
-            <a class="btn btn-primary" th:href="@{${'/library/books/' + book.getId() + '/lend'}}"
-               role="button">Lend</a>
-            <button class="btn btn-primary disabled">Returned</button>
         </div>
     </div>
 </main>

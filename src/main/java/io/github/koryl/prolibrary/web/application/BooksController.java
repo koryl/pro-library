@@ -57,14 +57,13 @@ public class BooksController {
     public String lendBook(@PathVariable("id") Long id, Model model) {
 
         Book book = bookService.getByBookId(id);
-
         User user = getLoggedUser();
 
-        bookService.lendBook(book, user);
-        userService.borrowBook(book, user);
-
-        logger.info("Book was successfully lent.");
-
+        if(!book.isBorrowed()) {
+            bookService.lendBook(book, user);
+            userService.borrowBook(book, user);
+            logger.info("Book was successfully lent.");
+        }
         model.addAttribute("book", book);
 
         return "single-book";
@@ -75,11 +74,12 @@ public class BooksController {
 
         Book book = bookService.getByBookId(id);
 
-        User user = getLoggedUser();
-        bookService.getBackBook(book);
-        userService.returnBookBook(book, user);
-        logger.info("Book was successfully returned.");
-
+        if(book.isBorrowed()) {
+            User user = getLoggedUser();
+            bookService.getBackBook(book);
+            userService.returnBookBook(book, user);
+            logger.info("Book was successfully returned.");
+        }
         model.addAttribute("book", book);
 
         return "single-book";

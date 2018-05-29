@@ -10,10 +10,12 @@
 <th:block th:replace="fragments/header :: header"/>
 
 <main role="main" class="container">
-    <h1 class="mt-5 md-5">Books Repository</h1>
+    <div class="mt-5 md-5">
+        <h1 class="p-3 m-2 display-4">Books Repository</h1>
+    </div>
 
 
-    <div class="container">
+    <div class="container m-3">
         <div class="card-columns">
             <div class="card" th:each="book: ${allBooks}">
                 <th:block th:if="${book.getBookCover() == null}">
