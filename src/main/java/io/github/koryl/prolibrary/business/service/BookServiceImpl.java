@@ -3,6 +3,9 @@ package io.github.koryl.prolibrary.business.service;
 import io.github.koryl.prolibrary.data.entity.Book;
 import io.github.koryl.prolibrary.data.entity.User;
 import io.github.koryl.prolibrary.data.repository.BookRepository;
+import io.github.koryl.prolibrary.data.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,11 +17,15 @@ import java.util.Optional;
 @Service
 public class BookServiceImpl implements BookService {
 
+    private static Logger logger = LoggerFactory.getLogger(BookServiceImpl.class);
+
     private BookRepository bookRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    public BookServiceImpl(BookRepository bookRepository) {
+    public BookServiceImpl(BookRepository bookRepository, UserRepository userRepository) {
         this.bookRepository = bookRepository;
+        this.userRepository = userRepository;
     }
 
     public List<Book> getAllBooks() {
@@ -53,17 +60,11 @@ public class BookServiceImpl implements BookService {
             book.setBorrowed(true);
             book.setUser(user);
             bookRepository.save(book);
-        }
-    }
 
-    @Transactional
-    public void getBackBook(Book book) {
+            user.getBorrowedBooks().add(book);
+            userRepository.save(user);
 
-        if(book.isBorrowed()) {
-
-            book.setBorrowed(false);
-            book.setUser(null);
-            bookRepository.save(book);
+            logger.info("Book was successfully lent.");
         }
     }
 }

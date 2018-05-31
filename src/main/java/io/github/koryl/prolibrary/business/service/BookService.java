@@ -13,5 +13,4 @@ public interface BookService {
 
     void lendBook(Book book, User user);
 
-    void getBackBook(Book book);
 }

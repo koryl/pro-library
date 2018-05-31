@@ -16,13 +16,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final AccessDeniedHandler accessDeniedHandler;
+    private final UserService userService;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
-    public SpringSecurityConfig(AccessDeniedHandler accessDeniedHandler) {
+    public SpringSecurityConfig(AccessDeniedHandler accessDeniedHandler, UserService userService) {
         this.accessDeniedHandler = accessDeniedHandler;
+        this.userService = userService;
     }
 
     @Override

@@ -12,7 +12,5 @@ public interface UserService extends UserDetailsService {
 
     User save(UserRegistrationDto registration);
 
-    void borrowBook(Book book, User user);
-
     void returnBookBook(Book book, User user);
 }

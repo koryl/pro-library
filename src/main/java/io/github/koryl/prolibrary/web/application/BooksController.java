@@ -61,9 +61,8 @@ public class BooksController {
 
         if(!book.isBorrowed()) {
             bookService.lendBook(book, user);
-            userService.borrowBook(book, user);
-            logger.info("Book was successfully lent.");
         }
+
         model.addAttribute("book", book);
 
         return "single-book";
@@ -73,13 +72,13 @@ public class BooksController {
     public String returnBook(@PathVariable("id") Long id, Model model) {
 
         Book book = bookService.getByBookId(id);
+        User user = getLoggedUser();
 
         if(book.isBorrowed()) {
-            User user = getLoggedUser();
-            bookService.getBackBook(book);
+
             userService.returnBookBook(book, user);
-            logger.info("Book was successfully returned.");
         }
+
         model.addAttribute("book", book);
 
         return "single-book";
